@@ -4,10 +4,22 @@ scriptencoding utf-8
 " The root directory to install all plugins.
 let g:plug_home=expand(stdpath('data') . '/plugged')
 
+let g:is_win = has('win32') || has('win64')
+let g:is_linux = has('unix') && !has('macunix')
+let g:is_mac = has('macunix')
+
 call plug#begin('~/AppData/Local/nvim/plugged/')
 
 Plug 'morhetz/gruvbox'
 Plug 'PProvost/vim-ps1'
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'ajmwagar/vim-deus'
+Plug 'lifepillar/vim-solarized8'
+Plug 'joshdick/onedark.vim'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'sainnhe/edge'
+Plug 'sainnhe/sonokai'
+Plug 'sainnhe/gruvbox-material'
 Plug 'scrooloose/nerdtree'
 Plug 'lervag/vimtex'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
@@ -41,10 +53,6 @@ if ( g:is_win || g:is_mac ) && executable('latex')
     autocmd FileType tex call SetServerName()
   augroup END
 
-  " Deoplete configurations for autocompletion to work
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'tex': g:vimtex#re#deoplete
-        \ })
 
   let g:vimtex_compiler_latexmk = {
         \ 'build_dir' : 'build',
@@ -96,8 +104,23 @@ endif
 "}}
 call plug#end()
 
+
+  if !exists('g:deoplete#omni#input_patterns')
+      let g:deoplete#omni#input_patterns = {}
+  endif
+  let g:deoplete#omni#input_patterns.tex = '\\(?:'
+        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+        \ . '|hyperref\s*\[[^]]*'
+        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ .')'
+
 syntax on
-colorscheme gruvbox
+colorscheme gruvbox-material 
 
 
 
