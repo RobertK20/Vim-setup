@@ -121,6 +121,6 @@ call plug#end()
 
 syntax on
 colorscheme gruvbox-material 
-
+let g:deoplete#enable_at_startup = 1
 
 
