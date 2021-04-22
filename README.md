@@ -1,2 +1,2 @@
-# Vim-setup
-Vim config files
+Neovim config files
+ - init.vim
