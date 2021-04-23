@@ -32,6 +32,14 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vista.vim'
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'Vimjas/vim-python-pep8-indent'
+
+
 
 "{{ LaTeX editting
 "This code has been adapted from: https://github.com/jdhao/nvim-config/blob/master/core/plugins.vim
