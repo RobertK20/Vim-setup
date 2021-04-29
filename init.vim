@@ -8,6 +8,8 @@ let g:is_win = has('win32') || has('win64')
 let g:is_linux = has('unix') && !has('macunix')
 let g:is_mac = has('macunix')
 
+let g:python3_host_prog = 'C:/ProgramData/Python39/python.exe'
+
 call plug#begin('~/AppData/Local/nvim/plugged/')
 
 Plug 'morhetz/gruvbox'
@@ -38,6 +40,8 @@ Plug 'liuchengxu/vista.vim'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'Vimjas/vim-python-pep8-indent'
+
+call plug#end()
 
 
 
@@ -109,12 +113,10 @@ if ( g:is_win || g:is_mac ) && executable('latex')
     endfunction
   endif
 endif
-"}}
-call plug#end()
-
-  call deoplete#custom#var('omni', 'input_patterns', {
-          \ 'tex': g:vimtex#re#deoplete
-          \})
+  
+call deoplete#custom#var('omni', 'input_patterns', {
+			\ 'tex': g:vimtex#re#deoplete
+			\})
 
 syntax on
 colorscheme gruvbox-material 
