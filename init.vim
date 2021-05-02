@@ -2,16 +2,17 @@ scriptencoding utf-8
 "{ Plugin installation
 "{{ Vim-plug related settings.
 " The root directory to install all plugins.
-let g:plug_home=expand(stdpath('data') . '/plugged')
+let g:plug_home='C:/Users/RobertKerr/AppData/Local/nvim/plugged/'
 
 let g:is_win = has('win32') || has('win64')
 let g:is_linux = has('unix') && !has('macunix')
 let g:is_mac = has('macunix')
 
-let g:python3_host_prog = 'C:/ProgramData/Python39/python.exe'
+let g:python3_host_prog = 'C:\ProgramData\Python39\python.exe' 
 
-call plug#begin('~/AppData/Local/nvim/plugged/')
+call plug#begin('C:/Users/RobertKerr/AppData/Local/nvim/plugged/')
 
+"Aesthetics
 Plug 'morhetz/gruvbox'
 Plug 'PProvost/vim-ps1'
 Plug 'lifepillar/vim-gruvbox8'
@@ -22,17 +23,31 @@ Plug 'KeitaNakamura/neodark.vim'
 Plug 'sainnhe/edge'
 Plug 'sainnhe/sonokai'
 Plug 'sainnhe/gruvbox-material'
+Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
+
+
+"file manager 
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'jistr/vim-nerdtree-tabs'
+
+"VimTex
 Plug 'lervag/vimtex'
+
+"snipets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+"Linting
+Plug 'dense-analysis/ale'
+
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'zchee/deoplete-jedi'
-Plug 'vim-airline/vim-airline'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sbdchd/neoformat'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -40,10 +55,16 @@ Plug 'liuchengxu/vista.vim'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'majutsushi/tagbar'
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-
+set number
+set splitbelow
+if (g:is_win) 
+	set shell=powershell.exe
+endif
 
 "{{ LaTeX editting
 "This code has been adapted from: https://github.com/jdhao/nvim-config/blob/master/core/plugins.vim
@@ -113,11 +134,79 @@ if ( g:is_win || g:is_mac ) && executable('latex')
     endfunction
   endif
 endif
-  
+
+"Autocomplete settings
 call deoplete#custom#var('omni', 'input_patterns', {
 			\ 'tex': g:vimtex#re#deoplete
 			\})
 
+" file browser
+" The following code is adapted from https://gist.github.com/miguelgrinberg/527bb5a400791f89b3c4da4bd61222e4
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let NERDTreeMinimalUI = 1
+let g:nerdtree_open = 0
+map <leader>n :call NERDTreeToggle()<CR>
+function NERDTreeToggle()
+    NERDTreeTabsToggle
+    if g:nerdtree_open == 1
+        let g:nerdtree_open = 0
+    else
+        let g:nerdtree_open = 1
+        wincmd p
+    endif
+endfunction
+
+function! StartUp()
+    if 0 == argc()
+        NERDTree
+    end
+endfunction
+
+autocmd VimEnter * call StartUp()
+
+" indent/unindent with tab/shift-tab
+" The following code is adapted from https://gist.github.com/miguelgrinberg/527bb5a400791f89b3c4da4bd61222e4
+
+nmap <Tab> >>
+nmap <S-tab> <<
+imap <S-Tab> <Esc><<i
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+" mouse
+set mouse=a
+let g:is_mouse_enabled = 1
+noremap <silent> <Leader>m :call ToggleMouse()<CR>
+function ToggleMouse()
+    if g:is_mouse_enabled == 1
+        echo "Mouse OFF"
+        set mouse=
+        let g:is_mouse_enabled = 0
+    else
+        echo "Mouse ON"
+        set mouse=a
+        let g:is_mouse_enabled = 1
+    endif
+endfunction
+
+" terminal
+function TermToggle ()
+	sp
+	term
+	resize 20
+endfunction
+map <leader>z :call TermToggle()<CR>
+
+"ale
+map <C-e> <Plug>(ale_next_wrap)
+map <C-r> <Plug>(ale_previous_wrap)
+
+" tags
+map <leader>t :TagbarToggle<CR>
+
+"Airline
+let g:airline#extensions#tabline#enabled = 1
+"Startup preamble 
 syntax on
 colorscheme gruvbox-material 
 
